@@ -19,6 +19,13 @@ const b0 = document.querySelector("#b0");
 const b1 = document.querySelector("#b1");
 const b2 = document.querySelector("#b2");
 const b3 = document.querySelector("#b3");
+const b4 = document.querySelector("#b4");
+const b5 = document.querySelector("#b5");
+const b6 = document.querySelector("#b6");
+const b7 = document.querySelector("#b7");
+const b8 = document.querySelector("#b8");
+const b9 = document.querySelector("#b9");
+
 const bdot = document.querySelector("#bdot");
 const bplus = document.querySelector("#bplus");
 const bequals = document.querySelector("#bequals");
@@ -26,11 +33,12 @@ const bminus = document.querySelector("#bminus");
 const btimes = document.querySelector("#btimes");
 const bdivide = document.querySelector("#bdivide");
 const bdel = document.querySelector("#bdel");
-const bac = document.querySelector("#bac");
+const bac = document.querySelector("#bAC");
+
 ansTop.textContent = ""
 let screenTopText = '';
 ansBot.textContent = "";
-let screenBotText = '0';
+let screenBotText = '';
 
 //booelans:
 let op1Bool = true;
@@ -48,7 +56,11 @@ function cleanString() {
     operator = '';
 }
 function eqOperand(num) {
-    
+    if (screenBotText.split('').includes('.') && num=== '.') return 0;
+    if (screenBotText === '' && num === '.'){
+        op1Bool ? op1String += '0' : op2String += '0';
+        screenBotText +='0';
+    }
     if (equalsBool){
         op1Bool = true;
         cleanString();
@@ -58,7 +70,8 @@ function eqOperand(num) {
     }
     // console.log(screenBotText);
     screenBotText += num;
-    ansBot.textContent = parseFloat(screenBotText);
+
+    ansBot.textContent = screenBotText;
     console.log("op2String1: " + op2String);
     equalsBool = false;
     operatorBool = false;
@@ -102,6 +115,10 @@ function eqOperator(ope){
     equalsBool = false;
 }
 
+function precisionRound(number, precision) {  // copied from internet
+    var factor = Math.pow(10, precision); 
+    return Math.round(number * factor) / factor; 
+  } 
 
 function operate(op1, op, op2){
     let op1Parsed = parseFloat(op1);
@@ -133,7 +150,7 @@ function operate(op1, op, op2){
 
     op1String = ANS.toString();
     opsArray[0] = op1String;
-    ansBot.textContent = ANS;
+    ansBot.textContent = precisionRound(ANS, 10);
     operatorBool = '';
     op2String = '';
 }
@@ -152,9 +169,28 @@ b3.addEventListener("click", () => {
     eqOperand('3');
 
 })
+b4.addEventListener("click", () => {
+    eqOperand('4');
+});
+b5.addEventListener("click", () => {
+    eqOperand('5');
+});
+b6.addEventListener("click", () => {
+    eqOperand('6');
+});
+b7.addEventListener("click", () => {
+    eqOperand('7');
+});
+b8.addEventListener("click", () => {
+    eqOperand('8');
+});
+b9.addEventListener("click", () => {
+    eqOperand('9');
+});
+
 bdot.addEventListener("click", () => {
     console.log("aaa");
-    // eqOperand('.');
+    eqOperand('.');
 })
 bplus.addEventListener("click", () => {
     eqOperator('+');
@@ -169,7 +205,21 @@ bdivide.addEventListener("click", () => {
     eqOperator('/');
 });
 
-
+bac.addEventListener("click", () => {
+    ansTop.textContent = ""
+    screenTopText = '';
+    ansBot.textContent = "";
+    screenBotText = '';
+    
+    //booelans:
+    op1Bool = true;
+    equalsBool = false;
+    operatorBool = '';
+    
+    ANS = 0;
+    opsArray = ['','',''];
+    op1String = '', op2String = '', operator = '';
+});
 bdel.addEventListener("click", () => {
 
     if (operator != '' && op2String === ''){
@@ -220,6 +270,7 @@ bdel.addEventListener("click", () => {
 })
 
 bequals.addEventListener("click", () => {
+    if(op1Bool && opsArray[2] === '') return 0;
     console.log("op2String: " + op2String);
 
     if (equalsBool){
@@ -239,7 +290,7 @@ bequals.addEventListener("click", () => {
     operate(opsArray[0], opsArray[1], opsArray[2]);
 
 
-
+    screenBotText = '0';
 
 
     equalsBool = true;
