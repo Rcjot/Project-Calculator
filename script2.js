@@ -26,6 +26,8 @@ const b7 = document.querySelector("#b7");
 const b8 = document.querySelector("#b8");
 const b9 = document.querySelector("#b9");
 
+const bnegative = document.querySelector("#bnegative");
+const bpercent = document.querySelector("#bpercent");
 const bdot = document.querySelector("#bdot");
 const bplus = document.querySelector("#bplus");
 const bequals = document.querySelector("#bequals");
@@ -61,11 +63,15 @@ function eqOperand(num) {
         op1Bool ? op1String += '0' : op2String += '0';
         screenBotText +='0';
     }
+    if (screenBotText === '0' && num != '.'){
+        screenBotText = '';
+    }
     if (equalsBool){
         op1Bool = true;
-        cleanString();
+        AC();
         op1Bool ? op1String += num : op2String += num;
     }else{
+        console.log("haio");
         op1Bool ? op1String += num : op2String += num;
     }
     // console.log(screenBotText);
@@ -86,6 +92,7 @@ function eqOperator(ope){
     opsArray[0] = op1String;
     opsArray[1] = operator;
     if (op1Bool && op1String === '') {
+        console.log("WARNING");
         op1String = '0';
         opsArray[0] = op1String;
 
@@ -125,15 +132,15 @@ function operate(op1, op, op2){
     let op2Parsed = parseFloat(op2);
     switch (op) {
         case '+':
-            ANS = op1Parsed + op2Parsed;
+            ANS = precisionRound(op1Parsed + op2Parsed, 10);
             cleanString();
             break;
         case '-':
-            ANS = op1Parsed - op2Parsed;
+            ANS = precisionRound(op1Parsed - op2Parsed, 10);
             cleanString();
             break;
-        case 'x':
-            ANS = op1Parsed * op2Parsed;
+        case '*':
+            ANS = precisionRound(op1Parsed * op2Parsed, 10);
             cleanString();
             break;
         case '/':
@@ -143,14 +150,14 @@ function operate(op1, op, op2){
                 return 1;
                 break;
             }
-            ANS = op1Parsed / op2Parsed;
+            ANS = precisionRound(op1Parsed / op2Parsed, 10);
             cleanString();
             break;
     }
 
     op1String = ANS.toString();
     opsArray[0] = op1String;
-    ansBot.textContent = precisionRound(ANS, 10);
+    ansBot.textContent = ANS.toString();
     operatorBool = '';
     op2String = '';
 }
@@ -188,6 +195,37 @@ b9.addEventListener("click", () => {
     eqOperand('9');
 });
 
+bnegative.addEventListener("click", () => {
+    if (op1String === '') return 0;
+
+    if(equalsBool){
+        ansTop.textContent = ""
+        screenTopText = '';
+    }
+
+    console.log("odfhoaj");
+    op1Bool ? op1String = (parseFloat(op1String) * -1).toString()  : op2String = (parseFloat(op2String) * -1).toString();
+    screenBotText = (parseFloat(screenBotText) * -1).toString()
+    ansBot.textContent = screenBotText;
+
+    equalsBool = false;
+
+});
+bpercent.addEventListener("click", () => {
+    if (op1String === '') return 0;
+
+    if(equalsBool){
+        ansTop.textContent = ""
+        screenTopText = '';
+    }
+
+    console.log("odfhoaj");
+    op1Bool ? op1String = (precisionRound(parseFloat(op1String) /100, 10)).toString()  : op2String = (precisionRound(parseFloat(op2String) /100, 10)).toString();
+    screenBotText = (precisionRound(parseFloat(screenBotText) /100,10)).toString()
+    ansBot.textContent = screenBotText;
+
+    equalsBool = false;
+})
 bdot.addEventListener("click", () => {
     console.log("aaa");
     eqOperand('.');
@@ -199,13 +237,12 @@ bminus.addEventListener("click", () => {
     eqOperator('-');
 })
 btimes.addEventListener("click", () => {
-    eqOperator('x');
+    eqOperator('*');
 });
 bdivide.addEventListener("click", () => {
     eqOperator('/');
 });
-
-bac.addEventListener("click", () => {
+function AC() {
     ansTop.textContent = ""
     screenTopText = '';
     ansBot.textContent = "";
@@ -219,6 +256,9 @@ bac.addEventListener("click", () => {
     ANS = 0;
     opsArray = ['','',''];
     op1String = '', op2String = '', operator = '';
+}
+bac.addEventListener("click", () => {
+    AC();
 });
 bdel.addEventListener("click", () => {
 
@@ -260,7 +300,7 @@ bdel.addEventListener("click", () => {
         if (screenBotText === ''){
             ansBot.textContent = '';
         }else{
-            ansBot.textContent = parseFloat(screenBotText);
+            ansBot.textContent = parseFloat(screenBotText); //to string??
         }
 
     }
@@ -271,6 +311,7 @@ bdel.addEventListener("click", () => {
 
 bequals.addEventListener("click", () => {
     if(op1Bool && opsArray[2] === '') return 0;
+    if(op2String === '' && opsArray[2] === '') return 0;
     console.log("op2String: " + op2String);
 
     if (equalsBool){
@@ -290,7 +331,7 @@ bequals.addEventListener("click", () => {
     operate(opsArray[0], opsArray[1], opsArray[2]);
 
 
-    screenBotText = '0';
+    screenBotText = ANS.toString();
 
 
     equalsBool = true;
@@ -310,6 +351,7 @@ lol.addEventListener("click", () => {
     console.log(opsArray);
     console.log("op1bool: " + op1Bool);
     console.log("operatorbool: " + operatorBool);
+    console.log("screenbottext: " + screenBotText);
 })
 
 
