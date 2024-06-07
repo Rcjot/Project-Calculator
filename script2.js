@@ -196,6 +196,9 @@ b9.addEventListener("click", () => {
 });
 
 bnegative.addEventListener("click", () => {
+    negativeEvent();
+});
+function negativeEvent() {
     if (op1String === '') return 0;
 
     if(equalsBool){
@@ -210,8 +213,11 @@ bnegative.addEventListener("click", () => {
 
     equalsBool = false;
 
-});
+}
 bpercent.addEventListener("click", () => {
+    percentEvent();
+})
+function percentEvent() {
     if (op1String === '') return 0;
 
     if(equalsBool){
@@ -225,7 +231,7 @@ bpercent.addEventListener("click", () => {
     ansBot.textContent = screenBotText;
 
     equalsBool = false;
-})
+}
 bdot.addEventListener("click", () => {
     console.log("aaa");
     eqOperand('.');
@@ -261,6 +267,9 @@ bac.addEventListener("click", () => {
     AC();
 });
 bdel.addEventListener("click", () => {
+    deleteEvent();
+})
+function deleteEvent() {
 
     if (operator != '' && op2String === ''){
         console.log("here")
@@ -307,9 +316,12 @@ bdel.addEventListener("click", () => {
 
     // op1Bool ? op1String.split().splice(op1String.length-1, 1).join() : op2String.split().splice(op2String.length-1, 1).join()
     // console.log(op1String);
-})
-
+}
 bequals.addEventListener("click", () => {
+    equalsEvent();
+});
+
+function equalsEvent() {
     if(op1Bool && opsArray[2] === '') return 0;
     if(op2String === '' && opsArray[2] === '') return 0;
     console.log("op2String: " + op2String);
@@ -337,8 +349,7 @@ bequals.addEventListener("click", () => {
     equalsBool = true;
     op1Bool = true;
     operatorBool = false;
-});
-
+}
 
 
 lol.addEventListener("click", () => {
@@ -355,6 +366,27 @@ lol.addEventListener("click", () => {
 })
 
 
+
+window.addEventListener('keydown', (e) => {
+    let operandInput = '1234567890';
+    let operatorInput = '+-/*';
+    if (operandInput.includes(e.key, 0)) eqOperand(e.key);
+    else if (operatorInput.includes(e.key, 0)) eqOperator(e.key);
+    else if (e.key === '=' || e.key === 'Enter') equalsEvent();
+    else if (e.key === '%') percentEvent();
+    else if (e.key === 'n') negativeEvent();
+    else if (e.key === 'Backspace'){
+        if (e.shiftKey){
+            AC()
+        }else{
+            deleteEvent();
+        }
+    }
+    console.log(e.key)
+    console.log(e.shiftKey);
+});
+
+
 /*
 note for self: 
 
@@ -364,3 +396,11 @@ it should ignore its call...
 
 
 */
+
+/**
+ * 
+ *  note for self:
+ * 
+ * work on keyboard support and css design
+ * 
+ */
