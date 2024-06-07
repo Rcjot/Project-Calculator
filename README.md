@@ -34,3 +34,6 @@ and my code is very very very very very inefficient and complicated than what it
 
 BUT im fine with this, i hope to be able to improve this ini the future..
 
+
+
+we are done with foundations huh...
