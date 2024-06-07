@@ -352,23 +352,23 @@ function equalsEvent() {
 }
 
 
-lol.addEventListener("click", () => {
-    console.log("ans: " + ANS);
-    console.log("op1: "+op1String);
-    console.log("op: "+operator);
-    console.log("op2: "+op2String);
+// lol.addEventListener("click", () => {
+//     console.log("ans: " + ANS);
+//     console.log("op1: "+op1String);
+//     console.log("op: "+operator);
+//     console.log("op2: "+op2String);
 
-    // console.log(screenTopText);
-    console.log(opsArray);
-    console.log("op1bool: " + op1Bool);
-    console.log("operatorbool: " + operatorBool);
-    console.log("screenbottext: " + screenBotText);
-})
+//     // console.log(screenTopText);
+//     console.log(opsArray);
+//     console.log("op1bool: " + op1Bool);
+//     console.log("operatorbool: " + operatorBool);
+//     console.log("screenbottext: " + screenBotText);
+// })
 
 
 
 window.addEventListener('keydown', (e) => {
-    let operandInput = '1234567890';
+    let operandInput = '1234567890.';
     let operatorInput = '+-/*';
     if (operandInput.includes(e.key, 0)) eqOperand(e.key);
     else if (operatorInput.includes(e.key, 0)) eqOperator(e.key);
